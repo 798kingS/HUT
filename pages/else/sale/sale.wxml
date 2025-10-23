@@ -1,0 +1,75 @@
+<!--pages/else/sale/sale.wxml-->
+<Header title="商品详情"></Header>
+<view class="sale-container" wx:if="{{item}}">
+  <!-- 商品图片轮播 -->
+  <view class="image-section">
+    <swiper class="image-swiper" indicator-dots="{{images.length > 1}}" autoplay="{{false}}" circular="{{true}}">
+      <swiper-item wx:for="{{images}}" wx:key="*this">
+        <image src="{{item}}" mode="aspectFill" class="product-image"></image>
+      </swiper-item>
+    </swiper>
+    <view class="image-indicators" wx:if="{{images.length > 1}}">
+      <view class="indicator {{currentImageIndex === index ? 'active' : ''}}" 
+            wx:for="{{images}}" wx:key="*this" 
+            bindtap="switchImage" data-index="{{index}}"></view>
+    </view>
+  </view>
+
+  <!-- 商品基本信息 -->
+  <view class="info-section">
+    <view class="price-row">
+      <text class="current-price">¥{{item.price}}</text>
+      <text class="original-price" wx:if="{{item.originalPrice}}">¥{{item.originalPrice}}</text>
+    </view>
+    <view class="title-row">
+      <text class="product-title">{{item.title}}</text>
+    </view>
+    <view class="meta-row">
+      <text class="condition">成色：{{item.condition}}</text>
+      <text class="category">{{item.category}}</text>
+    </view>
+    <view class="stats-row">
+      <text class="publish-time">{{item.publishTime}}</text>
+      <text class="location">📍 {{item.location}}</text>
+    </view>
+  </view>
+
+  <!-- 商品描述 -->
+  <view class="description-section">
+    <view class="section-title">商品描述</view>
+    <text class="description-text">{{item.description}}</text>
+  </view>
+
+  <!-- 卖家信息 -->
+  <view class="seller-section">
+    <view class="section-title">卖家信息</view>
+    <view class="seller-info">
+      <image src="{{item.sellerAvatar}}" class="seller-avatar"></image>
+      <view class="seller-details">
+        <text class="seller-name">{{item.sellerName}}</text>
+        <text class="seller-stats">发布 {{item.publishTime}}</text>
+      </view>
+      <button class="contact-btn" bindtap="contactSeller">联系卖家</button>
+    </view>
+  </view>
+
+  <!-- 操作按钮 -->
+  <view class="action-section">
+    <view class="action-buttons">
+      <button class="action-btn like-btn {{isLiked ? 'liked' : ''}}" bindtap="likeItem">
+        <text class="btn-icon">{{isLiked ? '❤️' : '🤍'}}</text>
+        <text class="btn-text">{{item.likes}}</text>
+      </button>
+      <button class="action-btn collect-btn {{isCollected ? 'collected' : ''}}" bindtap="collectItem">
+        <text class="btn-icon">{{isCollected ? '⭐' : '☆'}}</text>
+        <text class="btn-text">{{item.collects}}</text>
+      </button>
+      <button class="purchase-btn" bindtap="purchaseItem">立即购买</button>
+    </view>
+  </view>
+</view>
+
+<!-- 加载状态 -->
+<view class="loading-container" wx:else>
+  <text class="loading-text">加载中...</text>
+</view>

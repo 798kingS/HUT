@@ -1,0 +1,9 @@
+<!--components/Header/Header.wxml-->
+<view class="custom-navbar">
+  <view class="navbar-bg"></view>
+  <view class="navbar-content">
+    <image src="https://words-actions.oss-cn-hangzhou.aliyuncs.com/front/static/picture/backIcon1.png" class="navbar-logo" bind:tap="back"></image>
+    <text class="navbar-title">{{title}}</text>
+    <!-- <image src="/images/navbar-action.png" class="navbar-action"></image> -->
+  </view>
+</view>

@@ -1,0 +1,127 @@
+<view class="custom-navbar">
+  <view class="navbar-bg"></view>
+  <view class="navbar-content">
+    <image src="/images/app-logo.png" class="navbar-logo"></image>
+    <text class="navbar-title">湖院通</text>
+    <image src="/images/navbar-action.png" class="navbar-action"></image>
+  </view>
+</view>
+<view class="forum-bg">
+  <!-- 顶部圆角Tab栏 -->
+  <view class="tab-bar">
+    <view class="tab-item {{currentTab === 0 ? 'active' : ''}}" bindtap="switchTab" data-index="0">
+      <text class="tab-icon">🚗</text>
+      <text class="tab-text">拼车</text>
+    </view>
+    <view class="tab-item {{currentTab === 1 ? 'active' : ''}}" bindtap="switchTab" data-index="1">
+      <text class="tab-icon">📚</text>
+      <text class="tab-text">卖书</text>
+    </view>
+    <view class="tab-item {{currentTab === 2 ? 'active' : ''}}" bindtap="switchTab" data-index="2">
+      <text class="tab-icon">💬</text>
+      <text class="tab-text">论坛</text>
+    </view>
+  </view>
+
+  <view class="content">
+    <!-- 拼车模块 -->
+    <view class="tab-content" wx:if="{{currentTab === 0}}">
+      <view class="action-bar">
+        <button class="btn btn-primary" bindtap="navigateToCarpoolPublish">+ 发布拼车</button>
+        <button class="btn btn-secondary" bindtap="navigateToCarpoolList">全部拼车</button>
+      </view>
+      <view class="featured-list">
+        <view class="list-header">
+          <text class="list-title">热门拼车</text>
+        </view>
+        <view class="forum-card" wx:for="{{carpoolList}}" wx:key="id" bindtap="viewCarpoolDetail" data-item="{{item}}">
+          <view class="card-header">
+            <image src="{{item.avatar}}" class="avatar"></image>
+            <view class="user-info">
+              <text class="username">{{item.username}}</text>
+              <text class="time">{{item.time}}</text>
+            </view>
+            <view class="price">¥{{item.price}}</view>
+          </view>
+          <view class="card-body">
+            <text class="route">{{item.departure}} → {{item.destination}}</text>
+            <text class="car-info">{{item.carType}} | 剩余{{item.availableSeats}}座</text>
+            <text class="depart-time">出发：{{item.departureTime}}</text>
+          </view>
+          <view class="card-footer">
+            <button class="btn-icon" catchtap="likeCarpool" data-id="{{item.id}}"><text class="icon">👍</text> {{item.likes}}</button>
+            <button class="btn-icon" catchtap="collectCarpool" data-id="{{item.id}}"><text class="icon">⭐</text> {{item.collects}}</button>
+            <button class="btn-icon" catchtap="shareCarpool" data-item="{{item}}"><text class="icon">📤</text> 分享</button>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 卖书模块 -->
+    <view class="tab-content" wx:if="{{currentTab === 1}}">
+      <view class="action-bar">
+        <button class="btn btn-primary" bindtap="navigateToBooksPublish">+ 发布卖书</button>
+        <button class="btn btn-secondary" bindtap="navigateToBooksList">全部书籍</button>
+      </view>
+      <view class="featured-list">
+        <view class="list-header">
+          <text class="list-title">热门书籍</text>
+        </view>
+        <view class="forum-card" wx:for="{{booksList}}" wx:key="id" bindtap="viewBookDetail" data-item="{{item}}">
+          <view class="card-header">
+            <image src="{{item.image}}" class="book-cover"></image>
+            <view class="book-info">
+              <text class="book-title">{{item.title}}</text>
+              <text class="book-author">作者：{{item.author}}</text>
+              <text class="book-publisher">出版社：{{item.publisher}}</text>
+              <text class="book-isbn">ISBN：{{item.isbn}}</text>
+            </view>
+            <view class="book-price">
+              <text class="price">¥{{item.price}}</text>
+              <text class="original-price">¥{{item.originalPrice}}</text>
+            </view>
+          </view>
+          <view class="card-footer">
+            <button class="btn-icon" catchtap="collectBook" data-id="{{item.id}}"><text class="icon">⭐</text></button>
+            <button class="btn-icon" catchtap="shareBook" data-item="{{item}}"><text class="icon">📤</text> 分享</button>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 论坛模块 -->
+    <view class="tab-content" wx:if="{{currentTab === 2}}">
+      <view class="action-bar">
+        <button class="btn btn-primary" bindtap="navigateToForumPublish">+ 发布帖子</button>
+        <button class="btn btn-secondary" bindtap="navigateToForumList">全部帖子</button>
+      </view>
+      <view class="featured-list">
+        <view class="list-header">
+          <text class="list-title">热门讨论</text>
+        </view>
+        <view class="forum-card" wx:for="{{forumList}}" wx:key="id" bindtap="viewForumDetail" data-item="{{item}}">
+          <view class="card-header">
+            <image src="{{item.avatar}}" class="avatar"></image>
+            <view class="user-info">
+              <text class="username">{{item.username}}</text>
+              <text class="time">{{item.time}}</text>
+            </view>
+          </view>
+          <view class="card-body">
+            <text class="post-title">{{item.title}}</text>
+            <text class="post-content">{{item.content}}</text>
+            <view class="post-images" wx:if="{{item.images.length > 0}}">
+              <image wx:for="{{item.images}}" wx:key="*this" wx:for-item="img" src="{{img}}" mode="aspectFill" class="post-image"></image>
+            </view>
+          </view>
+          <view class="card-footer">
+            <button class="btn-icon" catchtap="likePost" data-id="{{item.id}}"><text class="icon">👍</text> {{item.likes}}</button>
+            <button class="btn-icon" catchtap="commentPost" data-id="{{item.id}}"><text class="icon">💬</text> {{item.comments}}</button>
+            <button class="btn-icon" catchtap="collectPost" data-id="{{item.id}}"><text class="icon">⭐</text> {{item.collects}}</button>
+            <button class="btn-icon" catchtap="sharePost" data-item="{{item}}"><text class="icon">📤</text> 分享</button>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view> 

@@ -1,0 +1,124 @@
+<Zero title="1"></Zero>
+
+<view class="custom-navbar">
+  <view class="navbar-bg"></view>
+  <view class="navbar-content">
+    <text class="navbar-title">校园论坛</text>
+  </view>
+</view>
+
+<view class="forum-container">
+  <!-- 欢迎横幅 -->
+  <view class="welcome-banner">
+    <view class="banner-bg">
+      <view class="banner-gradient"></view>
+      <view class="banner-pattern"></view>
+    </view>
+    <view class="banner-content">
+      <view class="welcome-text">
+        <text class="greeting">💬 校园论坛</text>
+        <text class="subtitle">分享想法，交流心得</text>
+      </view>
+      <view class="forum-stats">
+        <text class="stats-number">{{postList.length}}</text>
+        <text class="stats-label">活跃帖子</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 智能分类 -->
+  <view class="smart-categories">
+    <view class="category-item {{currentTab === 'all' ? 'active' : ''}}" bindtap="switchTab" data-tab="all">
+      <image src="/images/全部.png" class="category-icon"></image>
+      <text class="category-text">全部</text>
+    </view>
+    <view class="category-item {{currentTab === 'hot' ? 'active' : ''}}" bindtap="switchTab" data-tab="hot">
+      <image src="/images/热门.png" class="category-icon"></image>
+      <text class="category-text">热门</text>
+    </view>
+    <view class="category-item {{currentTab === 'essence' ? 'active' : ''}}" bindtap="switchTab" data-tab="essence">
+      <image src="/images/精华.png" class="category-icon"></image>
+      <text class="category-text">精华</text>
+    </view>
+    <view class="category-item {{currentTab === 'mine' ? 'active' : ''}}" bindtap="switchTab" data-tab="mine">
+      <image src="/images/个人.png" class="category-icon"></image>
+      <text class="category-text">我的</text>
+    </view>
+  </view>
+
+  <!-- 帖子列表 -->
+  <view class="posts-section">
+    <view class="posts-list">
+      <view class="post-card" wx:for="{{postList}}" wx:key="id" bindtap="viewDetail" data-item="{{item}}">
+        <view class="post-header">
+          <view class="user-section">
+            <view class="user-avatar">
+              <image src="{{item.avatar}}" class="avatar-img"></image>
+              <view class="online-indicator"></view>
+            </view>
+            <view class="user-info">
+              <text class="username">{{item.username}}</text>
+              <text class="post-time">{{item.time}}</text>
+            </view>
+          </view>
+          <view class="post-badge" wx:if="{{item.tag}}">
+            <text class="badge-text">{{item.tag}}</text>
+          </view>
+        </view>
+        
+        <view class="post-content">
+          <text class="post-title">{{item.title}}</text>
+          <text class="post-desc">{{item.content}}</text>
+          <view class="post-images" wx:if="{{item.images && item.images.length}}">
+            <image wx:for="{{item.images}}" wx:key="index" src="{{img}}" class="content-img"></image>
+          </view>
+        </view>
+        
+        <view class="post-actions">
+          <view class="action-item" catchtap="likePost" data-id="{{item.id}}">
+            <text class="action-icon">👍</text>
+            <text class="action-count">{{item.likes || 0}}</text>
+          </view>
+          <view class="action-item" catchtap="collectPost" data-id="{{item.id}}">
+            <text class="action-icon">⭐</text>
+            <text class="action-count">{{item.collects || 0}}</text>
+          </view>
+          <view class="action-item" catchtap="commentPost" data-id="{{item.id}}">
+            <text class="action-icon">💬</text>
+            <text class="action-count">{{item.comments || 0}}</text>
+          </view>
+          <view class="action-item" catchtap="sharePost" data-id="{{item.id}}">
+            <text class="action-icon">📤</text>
+            <text class="action-count">分享</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 加载更多 -->
+    <view class="load-more-section" wx:if="{{hasMore}}">
+      <button class="load-more-btn" bindtap="loadMore" loading="{{loading}}">
+        <text class="load-text">{{loading ? '加载中...' : '加载更多'}}</text>
+        <text class="load-icon">↓</text>
+      </button>
+    </view>
+
+    <!-- 空状态 -->
+    <view class="empty-state" wx:if="{{postList.length === 0 && !loading}}">
+      <view class="empty-content">
+        <text class="empty-icon">💭</text>
+        <text class="empty-title">暂无帖子</text>
+        <text class="empty-desc">快来发布第一个帖子，分享你的想法吧</text>
+        <button class="empty-action" bindtap="goToPost">立即发帖</button>
+      </view>
+    </view>
+  </view>
+</view>
+
+<!-- 悬浮发帖按钮 -->
+<view class="fab-container">
+  <button class="fab-button" bindtap="goToPost">
+    <text class="fab-icon">✍️</text>
+    <text class="fab-text">发帖</text>
+  </button>
+</view>

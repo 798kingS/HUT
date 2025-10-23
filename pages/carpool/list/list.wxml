@@ -1,0 +1,155 @@
+<Header title="校园拼车"></Header>
+
+<view class="carpool-container">
+  <!-- 欢迎横幅 -->
+  <view class="welcome-banner">
+    <view class="banner-bg">
+      <view class="banner-gradient"></view>
+      <view class="banner-pattern"></view>
+    </view>
+    <view class="banner-content">
+      <view class="welcome-text">
+        <text class="greeting">🚗 校园拼车</text>
+        <text class="subtitle">安全、便捷、绿色出行</text>
+      </view>
+      <view class="carpool-stats">
+        <text class="stats-number">{{carpoolList.length}}</text>
+        <text class="stats-label">可用拼车</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 智能搜索 -->
+  <view class="smart-search">
+    <view class="search-wrapper">
+      <view class="search-input {{searchFocus ? 'focus' : ''}}">
+        <image src="/images/搜索.png" class="search-icon"></image>
+        <input class="input-field" placeholder="搜索出发地或目的地" value="{{searchKeyword}}" bindinput="onSearchInput" focus="{{searchFocus}}" bindfocus="onSearchFocus" bindblur="onSearchBlur" />
+      </view>
+      <button class="search-btn" bindtap="search">
+        <text class="search-text">搜索</text>
+      </button>
+    </view>
+  </view>
+
+  <!-- 时间筛选 -->
+  <view class="time-filters">
+    <view class="filter-item {{currentFilter === 'all' ? 'active' : ''}}" bindtap="setFilter" data-filter="all">
+      <image src="/images/全部.png" class="filter-icon"></image>
+      <text class="filter-text">全部</text>
+    </view>
+    <view class="filter-item {{currentFilter === 'today' ? 'active' : ''}}" bindtap="setFilter" data-filter="today">
+      <image src="/images/今天.png" class="filter-icon"></image>
+      <text class="filter-text">今天</text>
+    </view>
+    <view class="filter-item {{currentFilter === 'tomorrow' ? 'active' : ''}}" bindtap="setFilter" data-filter="tomorrow">
+      <image src="/images/明天.png" class="filter-icon"></image>
+      <text class="filter-text">明天</text>
+    </view>
+    <view class="filter-item {{currentFilter === 'week' ? 'active' : ''}}" bindtap="setFilter" data-filter="week">
+      <image src="/images/本周.png" class="filter-icon"></image>
+      <text class="filter-text">本周</text>
+    </view>
+  </view>
+
+  <!-- 拼车列表 -->
+  <view class="carpool-section">
+    <view class="carpool-list">
+      <view class="carpool-card" wx:for="{{carpoolList}}" wx:key="id" bindtap="viewDetail" data-item="{{item}}">
+        <view class="card-header">
+          <view class="user-section">
+            <view class="user-avatar">
+              <image src="{{item.avatar}}" class="avatar-img"></image>
+              <view class="online-indicator"></view>
+            </view>
+            <view class="user-info">
+              <text class="username">{{item.username}}</text>
+              <text class="post-time">{{item.time}}</text>
+            </view>
+          </view>
+          <view class="price-badge">
+            <text class="price-symbol">¥</text>
+            <text class="price-amount">{{item.price}}</text>
+          </view>
+        </view>
+        
+        <view class="route-section">
+          <view class="route-path">
+            <view class="route-point departure">
+              <view class="point-icon">🟢</view>
+              <text class="point-label">{{item.departure}}</text>
+            </view>
+            <view class="route-line">
+              <view class="line-dots">
+                <view class="dot"></view>
+                <view class="dot"></view>
+                <view class="dot"></view>
+              </view>
+            </view>
+            <view class="route-point destination">
+              <view class="point-icon">🔴</view>
+              <text class="point-label">{{item.destination}}</text>
+            </view>
+          </view>
+          <view class="departure-time">
+            <text class="time-icon">⏰</text>
+            <text class="time-text">{{item.departureTime}}</text>
+          </view>
+        </view>
+        
+        <view class="car-info-section">
+          <view class="car-details">
+            <view class="car-item">
+              <text class="car-icon">🚗</text>
+              <text class="car-text">{{item.carType}}</text>
+            </view>
+            <view class="seats-item">
+              <text class="seats-icon">💺</text>
+              <text class="seats-text">剩余{{item.availableSeats}}座</text>
+            </view>
+          </view>
+          <view class="card-actions">
+            <view class="action-btn" catchtap="likeCarpool" data-id="{{item.id}}">
+              <text class="action-icon">👍</text>
+              <text class="action-count">{{item.likes || 0}}</text>
+            </view>
+            <view class="action-btn" catchtap="collectCarpool" data-id="{{item.id}}">
+              <text class="action-icon">⭐</text>
+              <text class="action-count">{{item.collects || 0}}</text>
+            </view>
+            <view class="action-btn" catchtap="shareCarpool" data-item="{{item}}">
+              <text class="action-icon">📤</text>
+              <text class="action-text">分享</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 加载更多 -->
+    <view class="load-more-section" wx:if="{{hasMore}}">
+      <button class="load-more-btn" bindtap="loadMore" loading="{{loading}}">
+        <text class="load-text">{{loading ? '加载中...' : '加载更多'}}</text>
+        <text class="load-icon">↓</text>
+      </button>
+    </view>
+
+    <!-- 空状态 -->
+    <view class="empty-state" wx:if="{{carpoolList.length === 0 && !loading}}">
+      <view class="empty-content">
+        <text class="empty-icon">🚗</text>
+        <text class="empty-title">暂无拼车信息</text>
+        <text class="empty-desc">快来发布第一个拼车信息，让出行更便捷</text>
+        <button class="empty-action" bindtap="goToPublish">立即发布</button>
+      </view>
+    </view>
+  </view>
+</view>
+
+<!-- 悬浮发布按钮 -->
+<view class="fab-container">
+  <button class="fab-button" bindtap="goToPublish">
+    <text class="fab-icon">🚗</text>
+    <text class="fab-text">发布</text>
+  </button>
+</view> 

@@ -1,0 +1,135 @@
+<Header title="发布拼车"></Header>
+<view class="publish-bg">
+  <form bindsubmit="submitForm">
+    <!-- 基本信息 -->
+    <view class="form-section-opt">
+      <view class="section-title-opt"><text class="section-icon">🛣️</text> 基本信息</view>
+      <view class="form-item-opt">
+        <text class="label-opt">出发地</text>
+        <view class="input-wrap-opt">
+          <text class="input-icon-opt">🏠</text>
+          <input class="input-opt" name="departure" placeholder="请输入出发地" value="{{formData.departure}}" bindinput="inputChange" data-field="departure" />
+        </view>
+      </view>
+      <view class="form-item-opt">
+        <text class="label-opt">目的地</text>
+        <view class="input-wrap-opt">
+          <text class="input-icon-opt">🏁</text>
+          <input class="input-opt" name="destination" placeholder="请输入目的地" value="{{formData.destination}}" bindinput="inputChange" data-field="destination" />
+        </view>
+      </view>
+      <view class="form-item-opt">
+        <text class="label-opt">出发日期</text>
+        <picker mode="date" value="{{formData.departureDate}}" bindchange="dateChange">
+          <view class="picker-input-opt">
+            <text class="picker-text-opt">{{formData.departureDate || '请选择日期'}}</text>
+            <text class="picker-arrow-opt">></text>
+          </view>
+        </picker>
+      </view>
+      <view class="form-item-opt">
+        <text class="label-opt">出发时间</text>
+        <picker mode="time" value="{{formData.departureTime}}" bindchange="timeChange">
+          <view class="picker-input-opt">
+            <text class="picker-text-opt">{{formData.departureTime || '请选择时间'}}</text>
+            <text class="picker-arrow-opt">></text>
+          </view>
+        </picker>
+      </view>
+      <view class="form-item-opt">
+        <text class="label-opt">预计到达时间</text>
+        <picker mode="time" value="{{formData.arrivalTime}}" bindchange="arrivalTimeChange">
+          <view class="picker-input-opt">
+            <text class="picker-text-opt">{{formData.arrivalTime || '请选择时间'}}</text>
+            <text class="picker-arrow-opt">></text>
+          </view>
+        </picker>
+      </view>
+    </view>
+
+    <!-- 车辆信息 -->
+    <view class="form-section-opt">
+      <view class="section-title-opt"><text class="section-icon">🚗</text> 车辆信息</view>
+      <view class="form-item-opt">
+        <text class="label-opt">车型</text>
+        <picker range="{{carTypes}}" value="{{carTypeIndex}}" bindchange="carTypeChange">
+          <view class="picker-input-opt">
+            <text class="picker-text-opt">{{carTypes[carTypeIndex] || '请选择车型'}}</text>
+            <text class="picker-arrow-opt">></text>
+          </view>
+        </picker>
+      </view>
+      <view class="form-item-opt">
+        <text class="label-opt">座位数</text>
+        <picker range="{{seatOptions}}" value="{{seatIndex}}" bindchange="seatChange">
+          <view class="picker-input-opt">
+            <text class="picker-text-opt">{{seatOptions[seatIndex] || '请选择座位数'}}</text>
+            <text class="picker-arrow-opt">></text>
+          </view>
+        </picker>
+      </view>
+      <view class="form-item-opt">
+        <text class="label-opt">价格（元/人）</text>
+        <view class="input-wrap-opt">
+          <text class="input-icon-opt">💰</text>
+          <input class="input-opt" type="number" name="price" placeholder="请输入价格" value="{{formData.price}}" bindinput="inputChange" data-field="price" />
+        </view>
+      </view>
+    </view>
+
+    <!-- 联系方式 -->
+    <view class="form-section-opt">
+      <view class="section-title-opt"><text class="section-icon">📱</text> 联系方式</view>
+      <view class="form-item-opt">
+        <text class="label-opt">手机号</text>
+        <view class="input-wrap-opt">
+          <text class="input-icon-opt">📞</text>
+          <input class="input-opt" type="number" name="phone" placeholder="请输入手机号" value="{{formData.phone}}" bindinput="inputChange" data-field="phone" />
+        </view>
+      </view>
+      <view class="form-item-opt">
+        <text class="label-opt">微信号</text>
+        <view class="input-wrap-opt">
+          <text class="input-icon-opt">💬</text>
+          <input class="input-opt" name="wechat" placeholder="请输入微信号" value="{{formData.wechat}}" bindinput="inputChange" data-field="wechat" />
+        </view>
+      </view>
+    </view>
+
+    <!-- 备注信息 -->
+    <view class="form-section-opt">
+      <view class="section-title-opt"><text class="section-icon">📝</text> 备注信息</view>
+      <view class="form-item-opt">
+        <text class="label-opt">备注</text>
+        <view class="input-wrap-opt textarea-wrap-opt">
+          <text class="input-icon-opt">🗒️</text>
+          <textarea class="textarea-opt" name="remark" placeholder="请输入备注信息（选填）" value="{{formData.remark}}" bindinput="inputChange" data-field="remark"></textarea>
+        </view>
+      </view>
+    </view>
+
+    <!-- 图片上传 -->
+    <view class="form-section-opt">
+      <view class="section-title-opt"><text class="section-icon">🖼️</text> 图片上传</view>
+      <view class="upload-section-opt">
+        <view class="upload-list-opt">
+          <view class="upload-item-opt" wx:for="{{images}}" wx:key="*this">
+            <image src="{{item}}" mode="aspectFill" class="upload-image-opt"></image>
+            <view class="upload-delete-opt" bindtap="deleteImage" data-index="{{index}}">×</view>
+          </view>
+          <view class="upload-add-opt" bindtap="chooseImage" wx:if="{{images.length < 9}}">
+            <text class="upload-icon-opt">+</text>
+          </view>
+        </view>
+        <text class="upload-tip-opt">最多上传9张图片</text>
+      </view>
+    </view>
+
+    <!-- 提交按钮 -->
+    <view class="submit-section-opt">
+      <button class="btn-gradient-opt btn-large-opt" form-type="submit" loading="{{submitting}}">
+        {{submitting ? '发布中...' : '发布拼车'}}
+      </button>
+    </view>
+  </form>
+</view> 

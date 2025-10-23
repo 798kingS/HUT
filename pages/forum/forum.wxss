@@ -1,0 +1,309 @@
+/* 自定义顶部导航栏 */
+.custom-navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 120rpx;
+  z-index: 1000;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+.navbar-bg {
+  position: absolute;
+  left: 0; top: 0; right: 0; bottom: 0;
+  width: 100%;
+  height: 120rpx;
+  background: linear-gradient(90deg, #388e3c 0%, #81c784 100%);
+  border-bottom-left-radius: 40rpx;
+  border-bottom-right-radius: 40rpx;
+  box-shadow: 0 4rpx 24rpx rgba(67,233,123,0.10);
+}
+/* 柔和白色蒙版 */
+.navbar-bg::after {
+  content: "";
+  position: absolute;
+  left: 0; top: 0; right: 0; bottom: 0;
+  background: rgba(255,255,255,0.18);
+  border-bottom-left-radius: 40rpx;
+  border-bottom-right-radius: 40rpx;
+}
+.navbar-content {
+  position: relative;
+  width: 92%;
+  height: 100rpx;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 2;
+}
+.navbar-logo {
+  width: 56rpx;
+  height: 56rpx;
+  border-radius: 16rpx;
+  background: #fff;
+  box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.08);
+}
+.navbar-title {
+  flex: 1;
+  text-align: center;
+  font-size: 40rpx;
+  font-weight: bold;
+  color: #fff;
+  letter-spacing: 4rpx;
+  text-shadow: 0 2rpx 8rpx rgba(0,0,0,0.10);
+}
+.navbar-action {
+  width: 48rpx;
+  height: 48rpx;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.18);
+  box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.06);
+}
+
+/* 让内容下移，避免被导航栏遮挡 */
+.forum-bg {
+  padding-top: 160rpx;
+}
+
+/* 背景色 */
+.forum-bg {
+  min-height: 100vh;
+  background: #f7f8fa;
+}
+
+/* 顶部圆角Tab栏 */
+.tab-bar {
+  display: flex;
+  background: #fff;
+  border-radius: 24rpx;
+  margin: 32rpx 32rpx 0 32rpx;
+  box-shadow: 0 4rpx 16rpx rgba(76,175,80,0.06);
+  overflow: hidden;
+}
+.tab-item {
+  flex: 1;
+  text-align: center;
+  padding: 32rpx 0 24rpx 0;
+  font-size: 32rpx;
+  color: #888;
+  font-weight: 500;
+  position: relative;
+  transition: color 0.2s, background 0.2s;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8rpx;
+}
+.tab-item .tab-icon {
+  font-size: 36rpx;
+  margin-bottom: 2rpx;
+}
+.tab-item.active {
+  color: #4CAF50;
+  background: linear-gradient(135deg,#e8f5e8 60%,#fff 100%);
+  box-shadow: 0 2rpx 8rpx rgba(76,175,80,0.08);
+}
+.tab-item.active::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  width: 60rpx;
+  height: 6rpx;
+  background: #4CAF50;
+  border-radius: 3rpx;
+}
+.tab-text {
+  font-size: 28rpx;
+  font-weight: 500;
+}
+
+/* 内容区 */
+.content {
+  padding: 0 32rpx;
+}
+
+/* 操作栏 */
+.action-bar {
+  display: flex;
+  gap: 24rpx;
+  margin: 40rpx 0 24rpx 0;
+}
+.action-bar .btn {
+  flex: 1;
+  font-size: 30rpx;
+  border-radius: 24rpx;
+  padding: 24rpx 0;
+  font-weight: 500;
+}
+
+/* 列表区 */
+.featured-list {
+  display: flex;
+  flex-direction: column;
+  gap: 32rpx;
+}
+.list-header {
+  margin-bottom: 18rpx;
+}
+.list-title {
+  font-size: 34rpx;
+  font-weight: bold;
+  color: #222;
+}
+
+/* 卡片样式 */
+.forum-card {
+  background: #fff;
+  border-radius: 20rpx;
+  box-shadow: 0 2rpx 12rpx rgba(76,175,80,0.06);
+  padding: 28rpx 24rpx 20rpx 24rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 12rpx;
+  transition: box-shadow 0.2s;
+}
+.forum-card:active {
+  box-shadow: 0 4rpx 16rpx rgba(76,175,80,0.12);
+}
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+}
+.avatar {
+  width: 64rpx;
+  height: 64rpx;
+  border-radius: 50%;
+  box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.08);
+}
+.user-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4rpx;
+}
+.username {
+  font-size: 30rpx;
+  font-weight: 500;
+  color: #333;
+}
+.time {
+  font-size: 24rpx;
+  color: #bbb;
+}
+.price {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #f44336;
+  margin-left: 12rpx;
+}
+.book-cover {
+  width: 80rpx;
+  height: 104rpx;
+  border-radius: 12rpx;
+  object-fit: cover;
+  margin-right: 16rpx;
+}
+.book-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4rpx;
+}
+.book-title {
+  font-size: 30rpx;
+  font-weight: 500;
+  color: #333;
+}
+.book-author, .book-publisher, .book-isbn {
+  font-size: 24rpx;
+  color: #888;
+}
+.book-price {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4rpx;
+}
+.price {
+  font-size: 30rpx;
+  font-weight: bold;
+  color: #4CAF50;
+}
+.original-price {
+  font-size: 24rpx;
+  color: #bbb;
+  text-decoration: line-through;
+}
+
+/* 卡片内容区 */
+.card-body {
+  margin: 12rpx 0 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
+}
+.route {
+  font-size: 28rpx;
+  color: #4CAF50;
+  font-weight: 500;
+}
+.car-info, .depart-time {
+  font-size: 24rpx;
+  color: #888;
+}
+.post-title {
+  font-size: 30rpx;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 4rpx;
+}
+.post-content {
+  font-size: 26rpx;
+  color: #666;
+  margin-bottom: 4rpx;
+}
+.post-images {
+  display: flex;
+  gap: 10rpx;
+  flex-wrap: wrap;
+  margin-top: 8rpx;
+}
+.post-image {
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 8rpx;
+  object-fit: cover;
+}
+
+/* 卡片底部操作栏 */
+.card-footer {
+  display: flex;
+  gap: 24rpx;
+  margin-top: 10rpx;
+}
+.btn-icon {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+  background: none;
+  border: none;
+  padding: 10rpx 18rpx;
+  font-size: 26rpx;
+  color: #666;
+  border-radius: 16rpx;
+  transition: background 0.2s;
+}
+.btn-icon:active {
+  background: #e8f5e8;
+  color: #4CAF50;
+}
+.btn-icon .icon {
+  font-size: 28rpx;
+} 

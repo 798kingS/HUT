@@ -1,0 +1,139 @@
+<Header title="校园二手书"></Header>
+
+<view class="books-container">
+  <!-- 欢迎横幅 -->
+  <view class="welcome-banner">
+    <view class="banner-bg">
+      <view class="banner-gradient"></view>
+      <view class="banner-pattern"></view>
+    </view>
+    <view class="banner-content">
+      <view class="welcome-text">
+        <text class="greeting">📚 校园二手书</text>
+        <text class="subtitle">知识传承，绿色环保</text>
+      </view>
+      <view class="books-stats">
+        <text class="stats-number">{{booksList.length}}</text>
+        <text class="stats-label">可用书籍</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 智能搜索 -->
+  <view class="smart-search">
+    <view class="search-wrapper">
+      <view class="search-input {{searchFocus ? 'focus' : ''}}">
+        <image src="/images/搜索.png" class="search-icon"></image>
+        <input class="input-field" placeholder="搜索书名或专业" value="{{searchKeyword}}" bindinput="onSearchInput" focus="{{searchFocus}}" bindfocus="onSearchFocus" bindblur="onSearchBlur" />
+      </view>
+      <button class="search-btn" bindtap="search">
+        <text class="search-text">搜索</text>
+      </button>
+    </view>
+  </view>
+
+  <!-- 分类筛选 -->
+  <view class="category-filters">
+    <view class="filter-item {{currentFilter === 'all' ? 'active' : ''}}" bindtap="setFilter" data-filter="all">
+      <image src="/images/全部.png" class="filter-icon"></image>
+      <text class="filter-text">全部</text>
+    </view>
+    <view class="filter-item {{currentFilter === 'textbook' ? 'active' : ''}}" bindtap="setFilter" data-filter="textbook">
+      <image src="/images/教材.png" class="filter-icon"></image>
+      <text class="filter-text">教材</text>
+    </view>
+    <view class="filter-item {{currentFilter === 'novel' ? 'active' : ''}}" bindtap="setFilter" data-filter="novel">
+      <image src="/images/小说.png" class="filter-icon"></image>
+      <text class="filter-text">小说</text>
+    </view>
+    <view class="filter-item {{currentFilter === 'other' ? 'active' : ''}}" bindtap="setFilter" data-filter="other">
+      <image src="/images/其他.png" class="filter-icon"></image>
+      <text class="filter-text">其他</text>
+    </view>
+  </view>
+
+  <!-- 书籍列表 -->
+  <view class="books-section">
+    <view class="books-list">
+      <view class="book-card" wx:for="{{booksList}}" wx:key="id" bindtap="viewDetail" data-item="{{item}}">
+        <view class="card-header">
+          <view class="book-cover-section">
+            <image src="{{item.images}}" class="book-cover"></image>
+            <view class="book-status">
+              <text class="status-text">{{item.condition}}</text>
+            </view>
+          </view>
+          <view class="book-info">
+            <text class="book-title">{{item.title}}</text>
+            <text class="book-author">{{item.author}}</text>
+            <text class="book-publisher">{{item.publisher}}</text>
+            <view class="book-tags">
+              <text class="tag-item">{{item.major}}</text>
+            </view>
+          </view>
+          <view class="price-section">
+            <text class="price-symbol">¥</text>
+            <text class="price-amount">{{item.price}}</text>
+          </view>
+        </view>
+        
+        <view class="book-description">
+          <text class="desc-text">{{item.description}}</text>
+        </view>
+        
+        <view class="seller-section">
+          <view class="seller-info">
+            <view class="seller-avatar">
+              <image src="{{item.sellerAvatar}}" class="avatar-img"></image>
+              <view class="online-indicator"></view>
+            </view>
+            <view class="seller-details">
+              <text class="seller-name">{{item.sellerName}}</text>
+              <text class="publish-time">{{item.publishTime}}</text>
+            </view>
+          </view>
+          <view class="book-actions">
+            <view class="action-btn" catchtap="likeBook" data-id="{{item.id}}">
+              <text class="action-icon">👍</text>
+              <text class="action-count">{{item.likes || 0}}</text>
+            </view>
+            <view class="action-btn" catchtap="collectBook" data-id="{{item.id}}">
+              <text class="action-icon">⭐</text>
+              <text class="action-count">{{item.collects || 0}}</text>
+            </view>
+            <view class="action-btn" catchtap="contactSeller" data-item="{{item}}">
+              <text class="action-icon">💬</text>
+              <text class="action-text">联系</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 加载更多 -->
+    <view class="load-more-section" wx:if="{{hasMore}}">
+      <button class="load-more-btn" bindtap="loadMore" loading="{{loading}}">
+        <text class="load-text">{{loading ? '加载中...' : '加载更多'}}</text>
+        <text class="load-icon">↓</text>
+      </button>
+    </view>
+
+    <!-- 空状态 -->
+    <view class="empty-state" wx:if="{{booksList.length === 0 && !loading}}">
+      <view class="empty-content">
+        <text class="empty-icon">📚</text>
+        <text class="empty-title">暂无二手书信息</text>
+        <text class="empty-desc">快来发布第一本二手书，让知识传承下去</text>
+        <button class="empty-action" bindtap="goToPublish">立即发布</button>
+      </view>
+    </view>
+  </view>
+</view>
+
+<!-- 悬浮发布按钮 -->
+<view class="fab-container">
+  <button class="fab-button" bindtap="goToPublish">
+    <text class="fab-icon">📚</text>
+    <text class="fab-text">发布</text>
+  </button>
+</view>

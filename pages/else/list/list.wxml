@@ -1,0 +1,138 @@
+<Header title="闲置物品"></Header>
+
+<view class="items-container">
+  <!-- 欢迎横幅 -->
+  <view class="welcome-banner">
+    <view class="banner-bg">
+      <view class="banner-gradient"></view>
+      <view class="banner-pattern"></view>
+    </view>
+    <view class="banner-content">
+      <view class="welcome-text">
+        <text class="greeting">🛍️ 闲置物品</text>
+        <text class="subtitle">让旧物找到新家</text>
+      </view>
+      <view class="items-stats">
+        <text class="stats-number">{{itemsList.length}}</text>
+        <text class="stats-label">可用物品</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 智能搜索 -->
+  <view class="smart-search">
+    <view class="search-wrapper">
+      <view class="search-input {{searchFocus ? 'focus' : ''}}">
+        <image src="/images/搜索.png" class="search-icon"></image>
+        <input class="input-field" placeholder="搜索物品名称或类别" value="{{searchKeyword}}" bindinput="onSearchInput" focus="{{searchFocus}}" bindfocus="onSearchFocus" bindblur="onSearchBlur" />
+      </view>
+      <button class="search-btn" bindtap="search">
+        <text class="search-text">搜索</text>
+      </button>
+    </view>
+  </view>
+
+  <!-- 分类筛选 -->
+  <view class="category-filters">
+    <view class="filter-item {{currentFilter === 'all' ? 'active' : ''}}" bindtap="setFilter" data-filter="all">
+      <image src="/images/全部.png" class="filter-icon"></image>
+      <text class="filter-text">全部</text>
+    </view>
+    <view class="filter-item {{currentFilter === 'electronics' ? 'active' : ''}}" bindtap="setFilter" data-filter="electronics">
+      <image src="/images/其他.png" class="filter-icon"></image>
+      <text class="filter-text">电子产品</text>
+    </view>
+    <view class="filter-item {{currentFilter === 'clothing' ? 'active' : ''}}" bindtap="setFilter" data-filter="clothing">
+      <image src="/images/其他.png" class="filter-icon"></image>
+      <text class="filter-text">服装</text>
+    </view>
+    <view class="filter-item {{currentFilter === 'other' ? 'active' : ''}}" bindtap="setFilter" data-filter="other">
+      <image src="/images/其他.png" class="filter-icon"></image>
+      <text class="filter-text">其他</text>
+    </view>
+  </view>
+
+  <!-- 物品列表 -->
+  <view class="items-section">
+    <view class="items-list">
+      <view class="item-card" wx:for="{{itemsList}}" wx:key="id" bindtap="viewDetail" data-item="{{item}}">
+        <view class="card-header">
+          <view class="item-cover-section">
+            <image src="{{item.images}}" class="item-cover"></image>
+            <view class="item-status">
+              <text class="status-text">{{item.condition}}</text>
+            </view>
+          </view>
+          <view class="item-info">
+            <text class="item-title">{{item.title}}</text>
+            <text class="item-category">{{item.category}}</text>
+            <view class="item-tags">
+              <text class="tag-item">{{item.category}}</text>
+            </view>
+          </view>
+          <view class="price-section">
+            <text class="price-symbol">¥</text>
+            <text class="price-amount">{{item.price}}</text>
+          </view>
+        </view>
+        
+        <view class="item-description">
+          <text class="desc-text">{{item.description}}</text>
+        </view>
+        
+        <view class="seller-section">
+          <view class="seller-info">
+            <view class="seller-avatar">
+              <image src="{{item.sellerAvatar}}" class="avatar-img"></image>
+              <view class="online-indicator"></view>
+            </view>
+            <view class="seller-details">
+              <text class="seller-name">{{item.sellerName}}</text>
+              <text class="publish-time">{{item.publishTime}}</text>
+            </view>
+          </view>
+          <view class="item-actions">
+            <view class="action-btn" catchtap="likeItem" data-id="{{item.id}}">
+              <text class="action-icon">👍</text>
+              <text class="action-count">{{item.likes || 0}}</text>
+            </view>
+            <view class="action-btn" catchtap="collectItem" data-id="{{item.id}}">
+              <text class="action-icon">⭐</text>
+              <text class="action-count">{{item.collects || 0}}</text>
+            </view>
+            <view class="action-btn" catchtap="contactSeller" data-item="{{item}}">
+              <text class="action-icon">💬</text>
+              <text class="action-text">联系</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 加载更多 -->
+    <view class="load-more-section" wx:if="{{hasMore}}">
+      <button class="load-more-btn" bindtap="loadMore" loading="{{loading}}">
+        <text class="load-text">{{loading ? '加载中...' : '加载更多'}}</text>
+        <text class="load-icon">↓</text>
+      </button>
+    </view>
+
+    <!-- 空状态 -->
+    <view class="empty-state" wx:if="{{itemsList.length === 0 && !loading}}">
+      <view class="empty-content">
+        <text class="empty-icon">🛍️</text>
+        <text class="empty-title">暂无闲置物品信息</text>
+        <text class="empty-desc">快来发布第一个闲置物品，让旧物找到新家</text>
+        <button class="empty-action" bindtap="goToPublish">立即发布</button>
+      </view>
+    </view>
+  </view>
+</view>
+
+<!-- 悬浮发布按钮 -->
+<view class="fab-container">
+  <button class="fab-button" bindtap="goToPublish">
+    <text class="fab-icon">🛍️</text>
+    <text class="fab-text">发布</text>
+  </button>
+</view> 

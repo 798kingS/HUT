@@ -1,0 +1,8 @@
+<!--components/zero/zero.wxml-->
+<view class="custom-navbar">
+  <view class="navbar-bg"></view>
+  <view class="navbar-content">
+    <text class="navbar-title">{{title}}</text>
+    <!-- <image src="/images/navbar-action.png" class="navbar-action"></image> -->
+  </view>
+</view>

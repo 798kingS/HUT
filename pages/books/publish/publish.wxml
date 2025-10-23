@@ -1,0 +1,122 @@
+<Header title="发布书籍"></Header>
+<view class="publish-bg">
+  <form bindsubmit="submitForm">
+    <!-- 书籍信息 -->
+    <view class="form-section-opt">
+      <view class="section-title-opt"><text class="section-icon">📚</text> 书籍信息</view>
+      <view class="form-item-opt">
+        <text class="label-opt">书名</text>
+        <view class="input-wrap-opt">
+          <text class="input-icon-opt">📖</text>
+          <input class="input-opt" name="title" placeholder="请输入书名" value="{{formData.title}}" bindinput="inputChange" data-field="title" />
+        </view>
+      </view>
+      <view class="form-item-opt">
+        <text class="label-opt">作者</text>
+        <view class="input-wrap-opt">
+          <text class="input-icon-opt">✍️</text>
+          <input class="input-opt" name="author" placeholder="请输入作者" value="{{formData.author}}" bindinput="inputChange" data-field="author" />
+        </view>
+      </view>
+      <view class="form-item-opt">
+        <text class="label-opt">出版社</text>
+        <view class="input-wrap-opt">
+          <text class="input-icon-opt">🏢</text>
+          <input class="input-opt" name="publisher" placeholder="请输入出版社" value="{{formData.publisher}}" bindinput="inputChange" data-field="publisher" />
+        </view>
+      </view>
+      <view class="form-item-opt">
+        <text class="label-opt">ISBN</text>
+        <view class="input-wrap-opt">
+          <text class="input-icon-opt">🔢</text>
+          <input class="input-opt" name="isbn" placeholder="请输入ISBN号" value="{{formData.isbn}}" bindinput="inputChange" data-field="isbn" />
+        </view>
+      </view>
+      <view class="form-item-opt">
+        <text class="label-opt">原价（元）</text>
+        <view class="input-wrap-opt">
+          <text class="input-icon-opt">💸</text>
+          <input class="input-opt" type="number" name="originalPrice" placeholder="请输入原价" value="{{formData.originalPrice}}" bindinput="inputChange" data-field="originalPrice" />
+        </view>
+      </view>
+      <view class="form-item-opt">
+        <text class="label-opt">售价（元）</text>
+        <view class="input-wrap-opt">
+          <text class="input-icon-opt">💰</text>
+          <input class="input-opt" type="number" name="price" placeholder="请输入售价" value="{{formData.price}}" bindinput="inputChange" data-field="price" />
+        </view>
+      </view>
+      <view class="form-item-opt">
+        <text class="label-opt">成色</text>
+        <picker range="{{conditions}}" value="{{conditionIndex}}" bindchange="conditionChange">
+          <view class="picker-input-opt">
+            <text class="picker-text-opt">{{conditions[conditionIndex] || '请选择成色'}}</text>
+            <text class="picker-arrow-opt">></text>
+          </view>
+        </picker>
+      </view>
+    </view>
+
+    <!-- 交易信息 -->
+    <view class="form-section-opt">
+      <view class="section-title-opt"><text class="section-icon">🤝</text> 交易信息</view>
+      <view class="form-item-opt">
+        <text class="label-opt">交易地点</text>
+        <view class="input-wrap-opt">
+          <text class="input-icon-opt">📍</text>
+          <input class="input-opt" name="location" placeholder="请输入交易地点" value="{{formData.location}}" bindinput="inputChange" data-field="location" />
+        </view>
+      </view>
+      <view class="form-item-opt">
+        <text class="label-opt">手机号</text>
+        <view class="input-wrap-opt">
+          <text class="input-icon-opt">📞</text>
+          <input class="input-opt" type="number" name="phone" placeholder="请输入手机号" value="{{formData.phone}}" bindinput="inputChange" data-field="phone" />
+        </view>
+      </view>
+      <view class="form-item-opt">
+        <text class="label-opt">微信号</text>
+        <view class="input-wrap-opt">
+          <text class="input-icon-opt">💬</text>
+          <input class="input-opt" name="wechat" placeholder="请输入微信号" value="{{formData.wechat}}" bindinput="inputChange" data-field="wechat" />
+        </view>
+      </view>
+    </view>
+
+    <!-- 书籍描述 -->
+    <view class="form-section-opt">
+      <view class="section-title-opt"><text class="section-icon">📝</text> 书籍描述</view>
+      <view class="form-item-opt">
+        <text class="label-opt">详细描述</text>
+        <view class="input-wrap-opt textarea-wrap-opt">
+          <text class="input-icon-opt">🗒️</text>
+          <textarea class="textarea-opt" name="description" placeholder="请描述书籍的详细情况，如使用痕迹、笔记等" value="{{formData.description}}" bindinput="inputChange" data-field="description"></textarea>
+        </view>
+      </view>
+    </view>
+
+    <!-- 图片上传 -->
+    <view class="form-section-opt">
+      <view class="section-title-opt"><text class="section-icon">🖼️</text> 图片上传</view>
+      <view class="upload-section-opt">
+        <view class="upload-list-opt">
+          <view class="upload-item-opt" wx:for="{{images}}" wx:key="*this">
+            <image src="{{item}}" mode="aspectFill" class="upload-image-opt"></image>
+            <view class="upload-delete-opt" bindtap="deleteImage" data-index="{{index}}">×</view>
+          </view>
+          <view class="upload-add-opt" bindtap="chooseImage" wx:if="{{images.length < 9}}">
+            <text class="upload-icon-opt">+</text>
+          </view>
+        </view>
+        <text class="upload-tip-opt">最多上传9张图片，建议上传书籍封面、内页等</text>
+      </view>
+    </view>
+
+    <!-- 提交按钮 -->
+    <view class="submit-section-opt">
+      <button class="btn-gradient-opt btn-large-opt" form-type="submit" loading="{{submitting}}">
+        {{submitting ? '发布中...' : '发布卖书'}}
+      </button>
+    </view>
+  </form>
+</view> 

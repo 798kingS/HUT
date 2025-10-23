@@ -1,0 +1,146 @@
+<view class="custom-navbar">
+  <view class="navbar-bg"></view>
+  <view class="navbar-content">
+    <text class="navbar-title">湖院通</text>
+  </view>
+</view>
+
+
+<view class="index-container">
+  <!-- 欢迎横幅 -->
+  <view class="welcome-banner">
+    <view class="banner-bg">
+      <view class="banner-gradient"></view>
+      <view class="banner-pattern"></view>
+    </view>
+    <view class="banner-content">
+      <view class="welcome-text">
+        <text class="greeting">你好，湖院学子！</text>
+        <text class="subtitle">让校园生活更精彩</text>
+      </view>
+      <view class="weather-info">
+        <text class="weather-temp">22°</text>
+        <text class="weather-desc">晴朗</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 核心功能区域 -->
+  <view class="core-functions">
+    <view class="function-grid">
+      <view class="function-card carpool-card" bindtap="navigateToCarpool">
+        <view class="card-icon">
+          <view class="icon-bg carpool-bg">
+            <image src="/images/拼车.png" class="icon-image"></image>
+          </view>
+        </view>
+        <view class="card-content">
+          <text class="card-title">拼车出行</text>
+          <text class="card-desc">绿色出行，省钱环保</text>
+        </view>
+        <view class="card-arrow">→</view>
+      </view>
+
+      <view class="function-card books-card" bindtap="navigateToBooks">
+        <view class="card-icon">
+          <view class="icon-bg books-bg">
+            <image src="/images/书籍.png" class="icon-image"></image>
+          </view>
+        </view>
+        <view class="card-content">
+          <text class="card-title">二手书籍</text>
+          <text class="card-desc">知识传承，循环利用</text>
+        </view>
+        <view class="card-arrow">→</view>
+
+        
+      </view>
+
+      <view class="function-card things-card" bindtap="navigateToThings">
+        <view class="card-icon">
+          <view class="icon-bg things-bg">
+            <image src="/images/闲置物品.png" class="icon-image"></image>
+          </view>
+        </view>
+        <view class="card-content">
+          <text class="card-title">闲置物品</text>
+          <text class="card-desc">物尽其用，资源共享</text>
+        </view>
+        <view class="card-arrow">→</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 热门动态 -->
+  <view class="trending-section">
+    <view class="section-header">
+      <view class="header-left">
+        <text class="section-title">🔥 热门动态</text>
+        <text class="section-subtitle">校园新鲜事</text>
+      </view>
+      <view class="header-right" bindtap="viewMore">
+        <text class="more-text">查看更多</text>
+        <text class="more-arrow">→</text>
+      </view>
+    </view>
+    
+    <view class="trending-list">
+      <view class="trending-card" wx:for="{{latestItems}}" wx:key="id" bindtap="viewDetail" data-item="{{item}}">
+        <view class="card-avatar">
+          <image src="{{item.avatar}}" class="avatar-img"></image>
+          <view class="online-dot"></view>
+        </view>
+        <view class="card-body">
+          <view class="card-header">
+            <text class="card-title">{{item.title}}</text>
+            <view class="card-badge {{item.type === '拼车' ? 'carpool-badge' : item.type === '卖书' ? 'books-badge' : 'forum-badge'}}">
+              {{item.type}}
+            </view>
+          </view>
+          <text class="card-desc">{{item.description}}</text>
+          <view class="card-footer">
+            <text class="card-time">{{item.time}}</text>
+            <view class="card-stats">
+              <text class="stat-item">👀 128</text>
+              <text class="stat-item">💬 24</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 快捷工具 -->
+  <view class="quick-tools">
+    <view class="tool-item" bindtap="scanCode">
+      <view class="tool-icon scan-icon">
+        <image src="/images/扫码.png" class="tool-icon-image"></image>
+      </view>
+      <text class="tool-text">扫码</text>
+    </view>
+    <view class="tool-item" bindtap="shareApp">
+      <view class="tool-icon share-icon">
+        <image src="/images/分享.png" class="tool-icon-image"></image>
+      </view>
+      <text class="tool-text">分享</text>
+    </view>
+    <view class="tool-item" bindtap="feedback">
+      <view class="tool-icon feedback-icon">
+        <image src="/images/意见反馈.png" class="tool-icon-image"></image>
+      </view>
+      <text class="tool-text">反馈</text>
+    </view>
+    <view class="tool-item" bindtap="showSettings">
+      <view class="tool-icon settings-icon">
+        <image src="/images/设置.png" class="tool-icon-image"></image>
+      </view>
+      <text class="tool-text">设置</text>
+    </view>
+  </view>
+
+  <!-- 底部装饰 -->
+  <view class="bottom-decoration">
+    <view class="decoration-line"></view>
+    <text class="decoration-text">让校园生活更美好</text>
+  </view>
+</view> 

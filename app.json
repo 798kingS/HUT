@@ -1,0 +1,81 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/forum/forum",
+    "pages/profile/profile",
+    "pages/carpool/publish/publish",
+    "pages/carpool/list/list",
+    "pages/books/publish/publish",
+    "pages/books/list/list",
+    "pages/forum/publish/publish",
+    "pages/forum/list/list",
+    "pages/profile/settings/settings",
+    "components/Header/Header",
+    "components/Zero/Zero",
+    "pages/else/list/list",
+    "pages/else/publish/publish",
+    "pages/else/sale/sale",
+    "pages/food/list/list",
+    "pages/game/game",
+    "pages/word/word"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#4CAF50",
+    "navigationBarTitleText": "湖院通",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#f5f5f5",
+    "navigationStyle": "custom"
+  },
+  "tabBar": {
+    "color": "#999999",
+    "selectedColor": "#D48DE7",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "images/首页.png",
+        "selectedIconPath": "images/首页.png"
+      },
+      {
+        "pagePath": "pages/food/list/list",
+        "text": "外卖",
+        "iconPath": "images/首页.png",
+        "selectedIconPath": "images/首页.png"
+      },
+      {
+        "pagePath": "pages/forum/list/list",
+        "text": "论坛",
+        "iconPath": "images/论坛.png",
+        "selectedIconPath": "images/论坛.png"
+      },
+      {
+        "pagePath": "pages/word/word",
+        "text": "消息",
+        "iconPath": "images/论坛.png",
+        "selectedIconPath": "images/论坛.png"
+      },
+      {
+        "pagePath": "pages/profile/profile",
+        "text": "我的",
+        "iconPath": "images/个人.png",
+        "selectedIconPath": "images/个人.png"
+      }
+    ]
+  },
+  "permission": {
+    "scope.userLocation": {
+      "desc": "您的位置信息将用于拼车功能"
+    }
+  },
+  "requiredBackgroundModes": [
+    "location"
+  ],
+  "style": "v2",
+  "sitemapLocation": "sitemap.json",
+  "usingComponents": {
+    "Header": "/components/Header/Header"
+  }
+}

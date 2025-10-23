@@ -1,0 +1,47 @@
+<Header title="个人设置"></Header>
+<view class="container">
+  <!-- 设置列表 -->
+  <view class="settings-list">
+    <view class="settings-group">
+      <view class="settings-item" bindtap="clearCache">
+        <view class="item-content">
+          <text class="item-title">清除缓存</text>
+          <text class="item-desc">清理本地存储的数据</text>
+        </view>
+        <view class="item-arrow">></view>
+      </view>
+      
+      <view class="settings-item" bindtap="aboutUs">
+        <view class="item-content">
+          <text class="item-title">关于我们</text>
+          <text class="item-desc">版本信息、联系方式</text>
+        </view>
+        <view class="item-arrow">></view>
+      </view>
+      
+      <view class="settings-item" bindtap="feedback">
+        <view class="item-content">
+          <text class="item-title">意见反馈</text>
+          <text class="item-desc">问题反馈、建议</text>
+        </view>
+        <view class="item-arrow">></view>
+      </view>
+    </view>
+
+    <view class="settings-group" wx:if="{{hasLogin}}">
+      <view class="settings-item" bindtap="logout">
+        <view class="item-content">
+          <text class="item-title text-danger">退出登录</text>
+          <text class="item-desc">退出当前账号</text>
+        </view>
+        <view class="item-arrow">></view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 版本信息 -->
+  <view class="version-info">
+    <text class="version-text">湖院通 v1.0.0</text>
+    <text class="copyright">© 2025 湖州学院</text>
+  </view>
+</view> 

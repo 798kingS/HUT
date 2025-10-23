@@ -1,0 +1,172 @@
+<!--pages/food/list/list.wxml-->
+<Header title="外卖接单"></Header>
+
+<view class="food-container">
+  <!-- 欢迎横幅 -->
+  <view class="welcome-banner">
+    <view class="banner-bg">
+      <view class="banner-gradient"></view>
+      <view class="banner-pattern"></view>
+    </view>
+    <view class="banner-content">
+      <view class="welcome-text">
+        <text class="greeting">🍽️ 外卖接单</text>
+        <text class="subtitle">让美食更快送达</text>
+      </view>
+      <view class="orders-stats">
+        <text class="stats-number">{{ordersList.length}}</text>
+        <text class="stats-label">可用订单</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 智能搜索 -->
+  <view class="smart-search">
+    <view class="search-wrapper">
+      <view class="search-input {{searchFocus ? 'focus' : ''}}">
+        <image src="/images/搜索.png" class="search-icon"></image>
+        <input class="input-field" placeholder="搜索餐厅、菜品、地址..." value="{{searchKeyword}}" bindinput="onSearchInput" focus="{{searchFocus}}" bindfocus="onSearchFocus" bindblur="onSearchBlur" />
+      </view>
+      <button class="search-btn" bindtap="search">
+        <text class="search-text">搜索</text>
+      </button>
+    </view>
+  </view>
+
+  <!-- 快速发布 -->
+  <view class="quick-publish">
+    <view class="quick-publish-header">
+      <text class="quick-title">💬 快速发布</text>
+      <text class="quick-subtitle">直接输入需求，系统自动解析</text>
+    </view>
+    <view class="quick-input-wrapper">
+      <textarea class="quick-input" placeholder="例如：帮我从麦当劳带个汉堡套餐到宿舍，佣金5元" value="{{quickText}}" bindinput="onQuickInput" maxlength="200"></textarea>
+      <view class="quick-actions">
+        <text class="char-count">{{quickText.length}}/200</text>
+        <button class="quick-publish-btn" bindtap="quickPublish">
+          <text class="btn-text">发布</text>
+        </button>
+      </view>
+    </view>
+  </view>
+
+  <!-- 分类筛选 -->
+  <view class="category-filters">
+    <view class="filter-item {{currentFilter === 'all' ? 'active' : ''}}" bindtap="setFilter" data-filter="all">
+      <image src="/images/全部.png" class="filter-icon"></image>
+      <text class="filter-text">全部订单</text>
+    </view>
+    <view class="filter-item {{currentFilter === '待接单' ? 'active' : ''}}" bindtap="setFilter" data-filter="待接单">
+      <image src="/images/今天.png" class="filter-icon"></image>
+      <text class="filter-text">未被接单</text>
+    </view>
+    <view class="filter-item {{currentFilter === 'myPosts' ? 'active' : ''}}" bindtap="setFilter" data-filter="myPosts">
+      <image src="/images/我的发布.png" class="filter-icon"></image>
+      <text class="filter-text">我发布的</text>
+    </view>
+    <view class="filter-item {{currentFilter === 'myHelp' ? 'active' : ''}}" bindtap="setFilter" data-filter="myHelp">
+      <image src="/images/我的收藏.png" class="filter-icon"></image>
+      <text class="filter-text">我帮助的</text>
+    </view>
+  </view>
+
+  <!-- 订单列表 -->
+  <view class="orders-section">
+    <view class="orders-list">
+      <view class="order-card" wx:for="{{ordersList}}" wx:key="id" bindtap="viewOrderDetail" data-order="{{item}}">
+        <view class="card-header">
+          <view class="order-cover-section">
+            <image src="{{item.restaurantImage || '/images/餐厅.png'}}" class="order-cover"></image>
+            <view class="order-status">
+              <text class="status-text">{{item.status}}</text>
+            </view>
+          </view>
+          <view class="order-info">
+            <text class="order-title">{{item.restaurant}} - {{item.foodName}}</text>
+            <text class="order-category">外卖配送</text>
+            <view class="order-tags">
+              <text class="tag-item">{{item.location || '东区'}}</text>
+            </view>
+          </view>
+          <view class="commission-section">
+            <text class="commission-symbol">¥</text>
+            <text class="commission-amount">{{item.commission || 5}}</text>
+          </view>
+        </view>
+        
+        <view class="order-description">
+          <text class="desc-text">{{item.description}}</text>
+          <text class="commission-after">佣金 ¥{{item.commission || 0}}</text>
+        </view>
+        
+        <view class="customer-section">
+          <view class="customer-info">
+            <view class="customer-avatar">
+              <image src="{{item.customerAvatar}}" class="avatar-img"></image>
+              <view class="online-indicator"></view>
+            </view>
+            <view class="customer-details">
+              <text class="customer-name">{{item.customerName}}</text>
+              <text class="order-time">{{item.orderTime}}</text>
+            </view>
+          </view>
+          <view class="order-actions">
+            <view class="action-btn" catchtap="contactCustomer" data-order="{{item}}">
+              <text class="action-icon">💬</text>
+              <text class="action-text">联系</text>
+            </view>
+            <!-- 新增：删除按钮（仅自己发布的订单显示） -->
+            <view class="action-btn delete-btn" 
+                  catchtap="showDeleteConfirm"
+                  data-id="{{item.id}}"
+                  wx:if="{{item.customerName === '我发布的'}}">
+              <text class="action-icon">🗑️</text>
+              <text class="action-text">删除</text>
+            </view>
+        </view>
+
+        <!-- 接单按钮区域 -->
+        <view class="order-buttons" catchtap="stopPropagation">
+          <button class="take-order-btn" catchtap="takeOrder" data-id="{{item.id}}" wx:if="{{item.status === '待接单'}}">
+            立即接单
+          </button>
+          <button class="take-order-btn accepted" catchtap="viewOrderDetail" data-order="{{item}}" wx:elif="{{item.status === '已接单'}}">
+            已接单
+          </button>
+          <button class="take-order-btn delivering" catchtap="viewOrderDetail" data-order="{{item}}" wx:elif="{{item.status === '配送中'}}">
+            配送中
+          </button>
+          <button class="take-order-btn completed" catchtap="viewOrderDetail" data-order="{{item}}" wx:elif="{{item.status === '已完成'}}">
+            已完成
+          </button>
+          
+          <!-- 取餐按钮 -->
+          <button class="pickup-btn" catchtap="pickupOrder" data-id="{{item.id}}" wx:if="{{item.status === '已接单'}}">
+            取餐
+          </button>
+        </view>
+      </view>
+    </view>
+
+    <!-- 加载更多 -->
+    <view class="load-more-section" wx:if="{{hasMore}}">
+      <button class="load-more-btn" bindtap="loadMore" loading="{{loading}}">
+        <text class="load-text">{{loading ? '加载中...' : '加载更多'}}</text>
+        <text class="load-icon">↓</text>
+      </button>
+    </view>
+
+    <!-- 空状态 -->
+    <view class="empty-state" wx:if="{{ordersList.length === 0 && !loading}}">
+      <view class="empty-content">
+        <text class="empty-icon">🍽️</text>
+        <text class="empty-title">暂无外卖订单</text>
+        <text class="empty-desc">快来发布第一个外卖需求，让美食更快送达</text>
+        <button class="empty-action" bindtap="goToPublish">立即发布</button>
+      </view>
+    </view>
+  </view>
+  </view>
+</view>
+
+
