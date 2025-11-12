@@ -53,7 +53,7 @@
     "disableSWC": true
   },
   "compileType": "miniprogram",
-  "libVersion": "2.19.4",
+  "libVersion": "3.10.0",
   "appid": "wx37764d4b4967fe54",
   "projectname": "湖院通",
   "isGameTourist": false,

@@ -141,6 +141,6 @@
   <!-- 底部装饰 -->
   <view class="bottom-decoration">
     <view class="decoration-line"></view>
-    <text class="decoration-text">让校园生活更美好</text>
+    <text class="decoration-text" style="height: 2052rpx; display: inline; box-sizing: content-box">让校园生活更美好</text>
   </view>
 </view> 

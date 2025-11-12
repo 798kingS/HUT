@@ -48,11 +48,16 @@
       <view class="login-info">
         <text class="login-title">未登录</text>
         <text class="login-desc">登录后享受更多功能</text>
-        <button class="login-btn" bindtap="login">
+        <button class="login-btn" type="primary" bindtap="login" style="width: 270rpx; display: flex; box-sizing: border-box; left: -5rpx; top: -7rpx; position: relative">
           <text class="btn-icon">🚀</text>
           <text class="btn-text">立即登录</text>
         </button>
       </view>
+        <button class="login-btn" type="primary" bindtap="navigateToVerification" style="width: 270rpx; display: flex; box-sizing: border-box; left: 5rpx; top: 47rpx; position: relative">
+          <text class="btn-icon">🚀</text>
+          <text class="btn-text">去认证</text>
+        </button>
+
     </view>
   </view>
 

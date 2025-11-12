@@ -72,12 +72,9 @@ Page({
 
   // 导航到个人信息
   navigateToPersonalInfo() {
-    if (!this.data.hasLogin) {
-      this.showLoginTip();
-      return;
-    }
-    wx.navigateTo({
-      url: '/pages/profile/personal-info/personal-info'
+    wx.showToast({
+      title: '当前功能开发中',
+      icon: 'none'
     });
   },
 
@@ -114,6 +111,13 @@ Page({
   navigateToAbout() {
     wx.navigateTo({
       url: '/pages/profile/about/about'
+    });
+  },
+
+  // 导航到认证页面
+  navigateToVerification() {
+    wx.navigateTo({
+      url: '/pages/profile/verification/verification'
     });
   },
 

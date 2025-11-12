@@ -2,7 +2,7 @@ App({
   globalData: {
     userInfo: null,
     hasLogin: false,
-    baseUrl: 'http://localhost:8080',
+    baseUrl: 'http://10.104.218.225:8888',
     token: '',
     location: null
   },
@@ -117,14 +117,14 @@ App({
   },
 
   // 退出登录
-  logout() {
-    this.globalData.userInfo = null;
-    this.globalData.hasLogin = false;
-    this.globalData.token = '';
-    wx.removeStorageSync('token');
-    wx.removeStorageSync('userInfo');
-    wx.reLaunch({
-      url: '/pages/index/index'
-    });
-  }
+  // logout() {
+  //   this.globalData.userInfo = null;
+  //   this.globalData.hasLogin = false;
+  //   this.globalData.token = '';
+  //   wx.removeStorageSync('token');
+  //   wx.removeStorageSync('userInfo');
+  //   wx.reLaunch({
+  //     url: '/pages/index/index'
+  //   });
+  // }
 }); 

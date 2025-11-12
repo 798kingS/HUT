@@ -1,0 +1,141 @@
+<!--pages/profile/verification/verification.wxml-->
+<view class="custom-navbar">
+  <view class="navbar-bg"></view>
+  <view class="navbar-content">
+    <view class="navbar-back" bindtap="goBack">
+      <text class="back-icon">‹</text>
+    </view>
+    <text class="navbar-title">用户认证</text>
+    <view class="navbar-placeholder"></view>
+  </view>
+</view>
+
+<view class="verification-container">
+  <!-- 认证说明 -->
+  <view class="verification-header">
+    <view class="header-icon">🎓</view>
+    <text class="header-title">完成认证，享受更多功能</text>
+    <text class="header-desc">认证后可以获得更多权限和信任度</text>
+  </view>
+
+  <!-- 认证表单 -->
+  <view class="verification-form">
+    <!-- 基本信息 -->
+    <view class="form-section">
+      <view class="section-title">基本信息</view>
+      
+      <!-- 姓名 -->
+      <view class="form-item">
+        <text class="form-label">真实姓名 <text class="required">*</text></text>
+        <input class="form-input" type="text" placeholder="请输入真实姓名" value="{{formData.realName}}" bindinput="onRealNameInput" maxlength="20" />
+      </view>
+
+      <!-- 学号 -->
+      <view class="form-item">
+        <text class="form-label">学号 <text class="required">*</text></text>
+        <input class="form-input" type="text" placeholder="请输入学号" value="{{formData.studentId}}" bindinput="onStudentIdInput" maxlength="20" />
+      </view>
+
+      <!-- 学院 -->
+      <view class="form-item">
+        <text class="form-label">学院 <text class="required">*</text></text>
+        <picker mode="selector" range="{{colleges}}" range-key="name" value="{{collegeIndex}}" bindchange="onCollegeChange">
+          <view class="form-picker {{formData.college ? '' : 'placeholder'}}">
+            {{formData.college || '请选择学院'}}
+            <text class="picker-arrow">›</text>
+          </view>
+        </picker>
+      </view>
+
+      <!-- 专业 -->
+      <view class="form-item">
+        <text class="form-label">专业 <text class="required">*</text></text>
+        <input class="form-input" type="text" placeholder="请输入专业名称" value="{{formData.major}}" bindinput="onMajorInput" maxlength="50" />
+      </view>
+
+      <!-- 年级 -->
+      <view class="form-item">
+        <text class="form-label">年级 <text class="required">*</text></text>
+        <picker mode="selector" range="{{grades}}" value="{{gradeIndex}}" bindchange="onGradeChange">
+          <view class="form-picker {{formData.grade ? '' : 'placeholder'}}">
+            {{formData.grade || '请选择年级'}}
+            <text class="picker-arrow">›</text>
+          </view>
+        </picker>
+      </view>
+    </view>
+
+    <!-- 联系方式 -->
+    <view class="form-section">
+      <view class="section-title">联系方式</view>
+      
+      <!-- 手机号 -->
+      <view class="form-item">
+        <text class="form-label">手机号 <text class="required">*</text></text>
+        <view class="phone-input-wrapper">
+          <input class="form-input phone-input" type="number" placeholder="请输入手机号" value="{{formData.phone}}" bindinput="onPhoneInput" maxlength="11" />
+          <button class="send-code-btn {{canSendCode ? '' : 'disabled'}}" bindtap="sendVerificationCode" disabled="{{!canSendCode || codeCountdown > 0}}">
+            {{codeCountdown > 0 ? codeCountdown + 's' : '发送验证码'}}
+          </button>
+        </view>
+      </view>
+
+      <!-- 验证码 -->
+      <view class="form-item" wx:if="{{codeSent}}">
+        <text class="form-label">验证码 <text class="required">*</text></text>
+        <input class="form-input" type="number" placeholder="请输入验证码" value="{{formData.verificationCode}}" bindinput="onVerificationCodeInput" maxlength="6" />
+      </view>
+    </view>
+
+    <!-- 学生证认证 -->
+    <view class="form-section">
+      <view class="section-title">学生证认证</view>
+      <view class="form-item">
+        <text class="form-label">上传学生证照片 <text class="required">*</text></text>
+        <text class="form-hint">请上传清晰的学生证照片（正面）</text>
+        <view class="upload-section">
+          <view class="upload-item" wx:if="{{formData.studentCardPhoto}}">
+            <image src="{{formData.studentCardPhoto}}" class="uploaded-image" mode="aspectFill" bindtap="previewStudentCard"></image>
+            <view class="delete-icon" bindtap="deleteStudentCard">×</view>
+          </view>
+          <view class="upload-item upload-placeholder" wx:else bindtap="uploadStudentCard">
+            <text class="upload-icon">📷</text>
+            <text class="upload-text">点击上传</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 认证状态 -->
+    <view class="form-section" wx:if="{{verificationStatus}}">
+      <view class="status-card {{verificationStatus === 'verified' ? 'verified' : verificationStatus === 'rejected' ? 'rejected' : 'pending'}}">
+        <view class="status-icon">
+          <text wx:if="{{verificationStatus === 'verified'}}">✅</text>
+          <text wx:elif="{{verificationStatus === 'rejected'}}">❌</text>
+          <text wx:else>⏳</text>
+        </view>
+        <view class="status-content">
+          <text class="status-title">
+            <text wx:if="{{verificationStatus === 'verified'}}">认证通过</text>
+            <text wx:elif="{{verificationStatus === 'rejected'}}">认证失败</text>
+            <text wx:else>认证审核中</text>
+          </text>
+          <text class="status-desc" wx:if="{{verificationStatus === 'verified'}}">您的认证已通过，可以享受更多功能</text>
+          <text class="status-desc" wx:elif="{{verificationStatus === 'rejected'}}">{{rejectionReason || '认证信息有误，请重新提交'}}</text>
+          <text class="status-desc" wx:else>我们将在1-3个工作日内完成审核</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 提交按钮 -->
+  <view class="submit-section">
+    <button class="submit-btn {{canSubmit ? '' : 'disabled'}}" bindtap="submitVerification" disabled="{{!canSubmit || submitting}}">
+      <text wx:if="{{submitting}}">提交中...</text>
+      <text wx:elif="{{verificationStatus === 'verified'}}">已认证</text>
+      <text wx:else>提交认证</text>
+    </button>
+    <text class="submit-hint">提交后，我们将在1-3个工作日内完成审核</text>
+  </view>
+</view>
+

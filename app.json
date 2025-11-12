@@ -10,6 +10,7 @@
     "pages/forum/publish/publish",
     "pages/forum/list/list",
     "pages/profile/settings/settings",
+    "pages/profile/verification/verification",
     "components/Header/Header",
     "components/Zero/Zero",
     "pages/else/list/list",

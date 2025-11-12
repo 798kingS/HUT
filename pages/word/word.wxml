@@ -1,2 +1,131 @@
 <!--pages/word/word.wxml-->
-<text>pages/word/word.wxml</text>
+<view class="custom-navbar">
+  <view class="navbar-bg"></view>
+  <view class="navbar-content">
+    <text class="navbar-title">消息中心</text>
+  </view>
+</view>
+
+<view class="word-container">
+  <!-- 欢迎横幅 -->
+  <view class="welcome-banner">
+    <view class="banner-bg">
+      <view class="banner-gradient"></view>
+      <view class="banner-pattern"></view>
+    </view>
+    <view class="banner-content">
+      <view class="welcome-text">
+        <text class="greeting">📬 消息中心</text>
+        <text class="subtitle">实时查看各类消息进度</text>
+      </view>
+      <view class="messages-stats">
+        <text class="stats-number">{{messagesList.length}}</text>
+        <text class="stats-label">条消息</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 分类筛选 -->
+  <view class="category-filters">
+    <view class="filter-item {{currentFilter === 'all' ? 'active' : ''}}" bindtap="setFilter" data-filter="all">
+      <text class="filter-text">全部</text>
+    </view>
+    <view class="filter-item {{currentFilter === '拼车' ? 'active' : ''}}" bindtap="setFilter" data-filter="拼车">
+      <text class="filter-text">拼车</text>
+    </view>
+    <view class="filter-item {{currentFilter === '出售' ? 'active' : ''}}" bindtap="setFilter" data-filter="出售">
+      <text class="filter-text">出售</text>
+    </view>
+    <view class="filter-item {{currentFilter === '外卖' ? 'active' : ''}}" bindtap="setFilter" data-filter="外卖">
+      <text class="filter-text">外卖</text>
+    </view>
+  </view>
+
+  <!-- 消息列表 -->
+  <view class="messages-section">
+    <view class="messages-list">
+      <view class="message-card" wx:for="{{messagesList}}" wx:key="id" bindtap="viewMessageDetail" data-message="{{item}}">
+        <view class="card-header">
+          <view class="message-avatar">
+            <image src="{{item.avatar}}" class="avatar-img"></image>
+            <view class="online-dot"></view>
+          </view>
+          <view class="message-info">
+            <view class="message-title-row">
+              <text class="message-title">{{item.title}}</text>
+              <view class="message-badge {{item.type === '拼车' ? 'carpool-badge' : item.type === '出售' ? 'sell-badge' : 'food-badge'}}">
+                {{item.type}}
+              </view>
+            </view>
+            <text class="message-desc">{{item.description}}</text>
+          </view>
+        </view>
+        
+        <!-- 进度状态 -->
+        <view class="progress-section">
+          <view class="progress-bar">
+            <view class="progress-fill {{item.statusClass}}" style="width: {{item.progress}}%"></view>
+          </view>
+          <view class="progress-info">
+            <text class="progress-status {{item.statusClass}}">{{item.status}}</text>
+            <text class="progress-time">{{item.time}}</text>
+          </view>
+        </view>
+
+        <!-- 消息详情 -->
+        <view class="message-details">
+          <view class="detail-item" wx:if="{{item.departure}}">
+            <text class="detail-label">出发地：</text>
+            <text class="detail-value">{{item.departure}}</text>
+          </view>
+          <view class="detail-item" wx:if="{{item.destination}}">
+            <text class="detail-label">目的地：</text>
+            <text class="detail-value">{{item.destination}}</text>
+          </view>
+          <view class="detail-item" wx:if="{{item.restaurant}}">
+            <text class="detail-label">餐厅：</text>
+            <text class="detail-value">{{item.restaurant}}</text>
+          </view>
+          <view class="detail-item" wx:if="{{item.foodName}}">
+            <text class="detail-label">菜品：</text>
+            <text class="detail-value">{{item.foodName}}</text>
+          </view>
+          <view class="detail-item" wx:if="{{item.bookName}}">
+            <text class="detail-label">书籍：</text>
+            <text class="detail-value">{{item.bookName}}</text>
+          </view>
+          <view class="detail-item" wx:if="{{item.itemName}}">
+            <text class="detail-label">物品：</text>
+            <text class="detail-value">{{item.itemName}}</text>
+          </view>
+          <view class="detail-item" wx:if="{{item.price}}">
+            <text class="detail-label">价格：</text>
+            <text class="detail-value price">¥{{item.price}}</text>
+          </view>
+        </view>
+
+        <!-- 操作按钮 -->
+        <view class="message-actions" catchtap="stopPropagation">
+          <button class="action-btn primary" bindtap="handleMessage" data-id="{{item.id}}" data-type="{{item.type}}" wx:if="{{item.status === '待接单' || item.status === '待确认'}}">
+            {{item.type === '外卖' ? '接单' : item.type === '拼车' ? '确认' : '联系'}}
+          </button>
+          <button class="action-btn secondary" bindtap="viewMessageDetail" data-message="{{item}}" wx:else>
+            查看详情
+          </button>
+        </view>
+      </view>
+    </view>
+
+    <!-- 空状态 -->
+    <view class="empty-state" wx:if="{{messagesList.length === 0 && !loading}}">
+      <view class="empty-content">
+        <text class="empty-icon">📭</text>
+        <text class="empty-title" wx:if="{{hasLogin}}">暂无消息</text>
+        <text class="empty-title" wx:else>请先登录</text>
+        <text class="empty-desc" wx:if="{{hasLogin}}">您的消息将在这里显示</text>
+        <text class="empty-desc" wx:else>登录后查看您的拼车、外卖、出售等消息</text>
+        <button class="empty-action" wx:if="{{!hasLogin}}" bindtap="goToLogin">去登录</button>
+      </view>
+    </view>
+  </view>
+</view>
